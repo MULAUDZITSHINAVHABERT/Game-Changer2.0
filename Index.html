@@ -1,0 +1,962 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Changer Tournament Registration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            color: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            width: 200px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        .tournament-title {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .slogan {
+            font-size: 1.2rem;
+            font-style: italic;
+            color: #FFD700;
+            margin-bottom: 20px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            padding: 12px 24px;
+            background: linear-gradient(45deg, #28a745, #20c997);
+            border: none;
+            border-radius: 25px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            color: #000;
+        }
+
+        .section {
+            display: none;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            margin-bottom: 20px;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #FFD700;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 16px;
+        }
+
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #FFD700;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .btn {
+            padding: 12px 24px;
+            background: linear-gradient(45deg, #28a745, #20c997);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px 5px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-danger {
+            background: linear-gradient(45deg, #dc3545, #c82333);
+        }
+
+        .btn-warning {
+            background: linear-gradient(45deg, #ffc107, #e0a800);
+            color: #000;
+        }
+
+        .biometric-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 20px 0;
+        }
+
+        .camera-section,
+        .fingerprint-section {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+
+        .camera-preview {
+            width: 100%;
+            max-width: 300px;
+            height: 200px;
+            background: #000;
+            border-radius: 10px;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+        }
+
+        .fingerprint-scanner {
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, #333, #000);
+            border-radius: 50%;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid #FFD700;
+        }
+
+        .fingerprint-scanner:hover {
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .fingerprint-scanner.scanning {
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 215, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
+        }
+
+        .player-list {
+            max-height: 400px;
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .player-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .player-info {
+            flex: 1;
+        }
+
+        .player-status {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .status-verified {
+            background: #28a745;
+            color: white;
+        }
+
+        .status-pending {
+            background: #ffc107;
+            color: #000;
+        }
+
+        .status-fraud {
+            background: #dc3545;
+            color: white;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-weight: bold;
+        }
+
+        .alert-success {
+            background: rgba(40, 167, 69, 0.2);
+            border: 1px solid #28a745;
+            color: #28a745;
+        }
+
+        .alert-danger {
+            background: rgba(220, 53, 69, 0.2);
+            border: 1px solid #dc3545;
+            color: #dc3545;
+        }
+
+        .alert-warning {
+            background: rgba(255, 193, 7, 0.2);
+            border: 1px solid #ffc107;
+            color: #ffc107;
+        }
+
+        .generated-card {
+            background: white;
+            color: #000;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 4rem;
+            color: rgba(0, 0, 0, 0.1);
+            font-weight: bold;
+            z-index: 1;
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .card-header {
+            text-align: center;
+            border-bottom: 2px solid #1e3c72;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .card-photo {
+            width: 100px;
+            height: 100px;
+            border-radius: 10px;
+            object-fit: cover;
+            border: 3px solid #1e3c72;
+        }
+
+        .teams-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .team-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .team-card:hover {
+            transform: translateY(-5px);
+            border-color: #FFD700;
+        }
+
+        .team-card.selected {
+            border-color: #28a745;
+            background: rgba(40, 167, 69, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .biometric-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .tournament-title {
+                font-size: 2rem;
+            }
+            
+            .nav-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo-container">
+                <img src ="C:\Users\Mulaudzi Bert\OneDrive - Vhembe TVET College\Documents\MTB Projects\Game changers\Game Changer.jpg" alt="Game Changer Logo" width =80px height=80px >
+            </div>
+            <h1 class="tournament-title">GAME CHANGER TOURNAMENT</h1>
+            <p class="slogan">"Where Champions Rise and Dreams Take Flight"</p>
+            <p style="color: #20c997; font-weight: bold;">Bringing SA Football Together</p>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="nav-btn active" onclick="showSection('registration')">Player Registration</button>
+            <button class="nav-btn" onclick="showSection('admin')">Admin Dashboard</button>
+            <button class="nav-btn" onclick="showSection('verification')">Verification Center</button>
+            <button class="nav-btn" onclick="showSection('cards')">Player Cards</button>
+        </div>
+
+        <!-- Player Registration Section -->
+        <div id="registration" class="section active">
+            <h2 style="color: #FFD700; margin-bottom: 20px;">Player Registration</h2>
+            
+            <form id="registrationForm">
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName" name="firstName" required placeholder="Enter your first name">
+                </div>
+
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" id="lastName" name="lastName" required placeholder="Enter your last name">
+                </div>
+
+                <div class="form-group">
+                    <label for="idNumber">ID Number</label>
+                    <input type="text" id="idNumber" name="idNumber" required placeholder="Enter your ID number" pattern="[0-9]{13}">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required placeholder="Enter your email address">
+                </div>
+
+                <div class="form-group">
+                    <label for="team">Select Team</label>
+                    <div class="teams-grid" id="teamsGrid">
+                        <!-- Teams will be populated by JavaScript -->
+                    </div>
+                    <input type="hidden" id="selectedTeam" name="selectedTeam" required>
+                </div>
+
+                <div class="biometric-section">
+                    <div class="camera-section">
+                        <h3 style="color: #FFD700;">ID Photo Capture</h3>
+                        <video id="camera" class="camera-preview" autoplay></video>
+                        <canvas id="photoCanvas" style="display: none;"></canvas>
+                        <div>
+                            <button type="button" class="btn" onclick="startCamera()">Start Camera</button>
+                            <button type="button" class="btn" onclick="capturePhoto()">Capture Photo</button>
+                        </div>
+                        <div id="photoPreview"></div>
+                    </div>
+
+                    <div class="fingerprint-section">
+                        <h3 style="color: #FFD700;">Fingerprint Scan</h3>
+                        <div class="fingerprint-scanner" id="fingerprintScanner" onclick="scanFingerprint()">
+                            <span style="font-size: 3rem;">👆</span>
+                        </div>
+                        <p>Click to scan fingerprint</p>
+                        <div id="fingerprintStatus"></div>
+                    </div>
+                </div>
+
+                <div id="registrationAlerts"></div>
+
+                <button type="submit" class="btn" style="width: 100%; font-size: 1.2rem; padding: 15px;">
+                    Register Player
+                </button>
+            </form>
+        </div>
+
+        <!-- Admin Dashboard Section -->
+        <div id="admin" class="section">
+            <h2 style="color: #FFD700; margin-bottom: 20px;">Admin Dashboard</h2>
+            
+            <div style="margin-bottom: 30px;">
+                <h3>Authentication Required</h3>
+                <div style="display: flex; gap: 10px; margin: 20px 0;">
+                    <input type="password" id="adminPassword" placeholder="Enter admin password" style="flex: 1;">
+                    <button class="btn" onclick="authenticateAdmin()">Login</button>
+                </div>
+            </div>
+
+            <div id="adminContent" style="display: none;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px;">
+                    <div style="background: rgba(40, 167, 69, 0.2); padding: 20px; border-radius: 10px; text-align: center;">
+                        <h3 style="color: #28a745;">Total Players</h3>
+                        <p style="font-size: 2rem; font-weight: bold;" id="totalPlayers">0</p>
+                    </div>
+                    <div style="background: rgba(255, 193, 7, 0.2); padding: 20px; border-radius: 10px; text-align: center;">
+                        <h3 style="color: #ffc107;">Pending Verification</h3>
+                        <p style="font-size: 2rem; font-weight: bold;" id="pendingPlayers">0</p>
+                    </div>
+                    <div style="background: rgba(220, 53, 69, 0.2); padding: 20px; border-radius: 10px; text-align: center;">
+                        <h3 style="color: #dc3545;">Fraud Detected</h3>
+                        <p style="font-size: 2rem; font-weight: bold;" id="fraudPlayers">0</p>
+                    </div>
+                </div>
+
+                <h3 style="margin-bottom: 15px;">Player Management</h3>
+                <div class="player-list" id="playerList">
+                    <!-- Players will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Verification Center Section -->
+        <div id="verification" class="section">
+            <h2 style="color: #FFD700; margin-bottom: 20px;">Verification Center</h2>
+            
+            <div style="margin-bottom: 30px;">
+                <h3>Real-time Player Verification</h3>
+                <p>This section shows live verification status when players scan their biometrics.</p>
+            </div>
+
+            <div id="verificationAlerts"></div>
+
+            <div style="background: rgba(0, 0, 0, 0.2); padding: 20px; border-radius: 10px;">
+                <h4 style="color: #FFD700; margin-bottom: 15px;">Recent Verification Attempts</h4>
+                <div id="verificationLog">
+                    <p style="color: #666; text-align: center;">No recent verification attempts</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Player Cards Section -->
+        <div id="cards" class="section">
+            <h2 style="color: #FFD700; margin-bottom: 20px;">Player Cards</h2>
+            
+            <div style="margin-bottom: 30px;">
+                <h3>Generated Player Cards</h3>
+                <p>View and manage all generated player cards</p>
+            </div>
+
+            <div id="playerCards">
+                <!-- Generated cards will appear here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let players = JSON.parse(localStorage.getItem('gameChangerPlayers')) || [];
+        let currentPhoto = null;
+        let currentFingerprint = null;
+        let isAdminAuthenticated = false;
+
+        // Teams data
+        const teams = [
+            { id: 'Happy Boys FC', name: 'Happy Boys FC', color: '#FFD700' },
+            { id: 'Rabali Pull Together FC', name: 'Rabali Pull Together FC', color: '#000000' },
+            { id: 'United Artist FC', name: 'United Artist FC', color: '#FFFF00' },
+            { id: 'Green Way Academy', name: 'Green Way Academy', color: '#0066CC' },
+            { id: 'Maila FC', name: 'Maila FC', color: '#87CEEB' },
+            { id: 'Tshikuwi FC', name: 'Tshikuwi FC', color: '#008000' },
+            { id: 'Dynamos FC', name: 'Dynamos FC', color: '#800080' },
+            { id: 'Benis care-united', name: 'Benis care-united', color: '#FF4500' }
+        ];
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeTeams();
+            updateAdminStats();
+            loadPlayerList();
+            loadPlayerCards();
+        });
+
+        // Navigation functions
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all nav buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+
+        // Initialize teams grid
+        function initializeTeams() {
+            const teamsGrid = document.getElementById('teamsGrid');
+            teamsGrid.innerHTML = '';
+            
+            teams.forEach(team => {
+                const teamCard = document.createElement('div');
+                teamCard.className = 'team-card';
+                teamCard.innerHTML = `
+                    <h4 style="color: ${team.color}; margin-bottom: 10px;">${team.name}</h4>
+                    <p style="font-size: 0.9rem; opacity: 0.8;">Click to select</p>
+                `;
+                teamCard.onclick = () => selectTeam(team.id, team.name);
+                teamsGrid.appendChild(teamCard);
+            });
+        }
+
+        // Team selection
+        function selectTeam(teamId, teamName) {
+            // Remove selection from all teams
+            document.querySelectorAll('.team-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Select clicked team
+            event.target.closest('.team-card').classList.add('selected');
+            document.getElementById('selectedTeam').value = teamName;
+        }
+
+        // Camera functions
+        async function startCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                const camera = document.getElementById('camera');
+                camera.srcObject = stream;
+            } catch (error) {
+                showAlert('registrationAlerts', 'Camera access denied. Please allow camera permissions.', 'danger');
+            }
+        }
+
+        function capturePhoto() {
+            const camera = document.getElementById('camera');
+            const canvas = document.getElementById('photoCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            canvas.width = camera.videoWidth;
+            canvas.height = camera.videoHeight;
+            ctx.drawImage(camera, 0, 0);
+            
+            currentPhoto = canvas.toDataURL('image/jpeg');
+            
+            // Show preview
+            const preview = document.getElementById('photoPreview');
+            preview.innerHTML = `<img src="${currentPhoto}" style="width: 100px; height: 100px; border-radius: 10px; margin-top: 10px;">`;
+            
+            showAlert('registrationAlerts', 'Photo captured successfully!', 'success');
+        }
+
+        // Fingerprint scanning simulation
+        function scanFingerprint() {
+            const scanner = document.getElementById('fingerprintScanner');
+            const status = document.getElementById('fingerprintStatus');
+            
+            scanner.classList.add('scanning');
+            status.innerHTML = '<p style="color: #ffc107;">Scanning fingerprint...</p>';
+            
+            setTimeout(() => {
+                scanner.classList.remove('scanning');
+                currentFingerprint = generateFingerprintHash();
+                status.innerHTML = '<p style="color: #28a745;">✓ Fingerprint captured successfully!</p>';
+                showAlert('registrationAlerts', 'Fingerprint scanned successfully!', 'success');
+            }, 3000);
+        }
+
+        // Generate fingerprint hash (simulation)
+        function generateFingerprintHash() {
+            return 'FP_' + Math.random().toString(36).substr(2, 16).toUpperCase();
+        }
+
+        // Form submission
+        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const playerData = {
+                id: Date.now(),
+                firstName: formData.get('firstName'),
+                lastName: formData.get('lastName'),
+                idNumber: formData.get('idNumber'),
+                email: formData.get('email'),
+                team: formData.get('selectedTeam'),
+                photo: currentPhoto,
+                fingerprint: currentFingerprint,
+                registrationDate: new Date().toISOString(),
+                status: 'pending',
+                verified: false
+            };
+
+            // Check for duplicate registrations
+            const existingPlayer = players.find(p => p.idNumber === playerData.idNumber);
+            if (existingPlayer) {
+                if (existingPlayer.team !== playerData.team) {
+                    // Mark as fraud - registered for multiple teams
+                    playerData.status = 'fraud';
+                    showAlert('registrationAlerts', 'FRAUD DETECTED: This player is already registered for another team!', 'danger');
+                    
+                    // Update existing player status
+                    existingPlayer.status = 'fraud';
+                    savePlayersData();
+                } else {
+                    showAlert('registrationAlerts', 'Player already registered for this team.', 'warning');
+                    return;
+                }
+            }
+
+            // Validate required biometric data
+            if (!currentPhoto) {
+                showAlert('registrationAlerts', 'Please capture your ID photo.', 'warning');
+                return;
+            }
+
+            if (!currentFingerprint) {
+                showAlert('registrationAlerts', 'Please scan your fingerprint.', 'warning');
+                return;
+            }
+
+            // Add player to database
+            players.push(playerData);
+            savePlayersData();
+
+            // Generate player card
+            generatePlayerCard(playerData);
+
+            // Send email (simulation)
+            sendPlayerCardEmail(playerData);
+
+            // Show success message
+            if (playerData.status !== 'fraud') {
+                showAlert('registrationAlerts', 'Registration successful! Player card has been sent to your email.', 'success');
+            }
+
+            // Reset form
+            e.target.reset();
+            currentPhoto = null;
+            currentFingerprint = null;
+            document.getElementById('photoPreview').innerHTML = '';
+            document.getElementById('fingerprintStatus').innerHTML = '';
+            document.querySelectorAll('.team-card').forEach(card => card.classList.remove('selected'));
+
+            // Update admin stats
+            updateAdminStats();
+            loadPlayerList();
+            loadPlayerCards();
+        });
+
+        // Save players data to localStorage
+        function savePlayersData() {
+            localStorage.setItem('gameChangerPlayers', JSON.stringify(players));
+        }
+
+        // Admin authentication
+        function authenticateAdmin() {
+            const password = document.getElementById('adminPassword').value;
+            if (password === 'admin123') { // Simple password for demo
+                isAdminAuthenticated = true;
+                document.getElementById('adminContent').style.display = 'block';
+                showAlert('admin', 'Admin authenticated successfully!', 'success');
+                updateAdminStats();
+                loadPlayerList();
+            } else {
+                showAlert('admin', 'Invalid admin password!', 'danger');
+            }
+        }
+
+        // Update admin statistics
+        function updateAdminStats() {
+            document.getElementById('totalPlayers').textContent = players.length;
+            document.getElementById('pendingPlayers').textContent = players.filter(p => p.status === 'pending').length;
+            document.getElementById('fraudPlayers').textContent = players.filter(p => p.status === 'fraud').length;
+        }
+
+        // Load player list for admin
+        function loadPlayerList() {
+            const playerList = document.getElementById('playerList');
+            playerList.innerHTML = '';
+
+            if (players.length === 0) {
+                playerList.innerHTML = '<p style="text-align: center; color: #666;">No players registered yet.</p>';
+                return;
+            }
+
+            players.forEach(player => {
+                const playerCard = document.createElement('div');
+                playerCard.className = 'player-card';
+                
+                let statusClass = 'status-pending';
+                if (player.status === 'verified') statusClass = 'status-verified';
+                if (player.status === 'fraud') statusClass = 'status-fraud';
+
+                playerCard.innerHTML = `
+                    <div class="player-info">
+                        <h4>${player.firstName} ${player.lastName}</h4>
+                        <p>ID: ${player.idNumber} | Team: ${player.team}</p>
+                        <p>Email: ${player.email}</p>
+                        <p>Registered: ${new Date(player.registrationDate).toLocaleDateString()}</p>
+                    </div>
+                    <div>
+                        <span class="player-status ${statusClass}">${player.status.toUpperCase()}</span>
+                        <div style="margin-top: 10px;">
+                            <button class="btn" onclick="verifyPlayer(${player.id})">Verify</button>
+                            <button class="btn btn-danger" onclick="markAsFraud(${player.id})">Mark Fraud</button>
+                        </div>
+                    </div>
+                `;
+                
+                playerList.appendChild(playerCard);
+            });
+        }
+
+        // Verify player
+        function verifyPlayer(playerId) {
+            const player = players.find(p => p.id === playerId);
+            if (player) {
+                player.status = 'verified';
+                player.verified = true;
+                savePlayersData();
+                updateAdminStats();
+                loadPlayerList();
+                
+                // Log verification
+                logVerification(player, 'verified');
+            }
+        }
+
+        // Mark player as fraud
+        function markAsFraud(playerId) {
+            const player = players.find(p => p.id === playerId);
+            if (player) {
+                player.status = 'fraud';
+                savePlayersData();
+                updateAdminStats();
+                loadPlayerList();
+                
+                // Log verification
+                logVerification(player, 'fraud');
+            }
+        }
+
+        // Log verification attempts
+        function logVerification(player, action) {
+            const log = document.getElementById('verificationLog');
+            const logEntry = document.createElement('div');
+            logEntry.style.cssText = 'padding: 10px; margin: 5px 0; background: rgba(255,255,255,0.1); border-radius: 5px;';
+            
+            const actionColor = action === 'verified' ? '#28a745' : '#dc3545';
+            logEntry.innerHTML = `
+                <p><strong style="color: ${actionColor};">${action.toUpperCase()}</strong></p>
+                <p>${player.firstName} ${player.lastName} (${player.idNumber})</p>
+                <p>Team: ${player.team}</p>
+                <p>Time: ${new Date().toLocaleString()}</p>
+            `;
+            
+            log.insertBefore(logEntry, log.firstChild);
+            
+            // Keep only last 10 entries
+            while (log.children.length > 10) {
+                log.removeChild(log.lastChild);
+            }
+        }
+
+        // Generate player card
+        function generatePlayerCard(player) {
+            const card = {
+                id: player.id,
+                playerData: player,
+                generatedDate: new Date().toISOString()
+            };
+            
+            // Store card data
+            let cards = JSON.parse(localStorage.getItem('gameChangerCards')) || [];
+            cards.push(card);
+            localStorage.setItem('gameChangerCards', JSON.stringify(cards));
+        }
+
+        // Load player cards
+        function loadPlayerCards() {
+            const cardsContainer = document.getElementById('playerCards');
+            const cards = JSON.parse(localStorage.getItem('gameChangerCards')) || [];
+            
+            cardsContainer.innerHTML = '';
+            
+            if (cards.length === 0) {
+                cardsContainer.innerHTML = '<p style="text-align: center; color: #666;">No player cards generated yet.</p>';
+                return;
+            }
+
+            cards.forEach(card => {
+                const player = card.playerData;
+                const cardElement = document.createElement('div');
+                cardElement.className = 'generated-card';
+                
+                cardElement.innerHTML = `
+                    <div class="card-watermark">GAME CHANGER</div>
+                    <div class="card-content">
+                        <div class="card-header">
+                            <h2 style="color: #1e3c72; margin-bottom: 5px;">GAME CHANGER TOURNAMENT</h2>
+                         
+                        </div>
+                        <div style="display: grid; grid-template-columns: auto 1fr; gap: 20px; align-items: start;">
+                            <div>
+                                ${player.photo ? `<img src="${player.photo}" class="card-photo" alt="Player Photo">` : '<div class="card-photo" style="background: #ccc; display: flex; align-items: center; justify-content: center;">No Photo</div>'}
+                            </div>
+                            <div>
+                                <h3 style="color: #1e3c72; margin-bottom: 10px;"> ${player.firstName} ${player.lastName}</h3>
+                                <p> <strong>ID Number:</strong> ${player.idNumber} </p>
+                                <p> <strong> Team:</strong> ${player.team}</p>
+                                <p><strong>Registration Date:</strong> ${new Date(player.registrationDate).toLocaleDateString()}</p>
+                                <p><strong>Status:</strong> <span style="color: ${player.status === 'verified' ? '#28a745' : player.status === 'fraud' ? '#dc3545' : '#ffc107'}">${player.status.toUpperCase()}</span></p>
+                            </div>
+                        </div>
+                        <div style="margin-top: 20px; text-align: center; border-top: 1px solid #ccc; padding-top: 15px;">
+                            <p style="font-size: 0.9rem; color: #666;">This card is valid for the Game Changer Tournament only</p>
+                            <p style="font-size: 0.8rem; color: #999;">Generated on ${new Date(card.generatedDate).toLocaleDateString()}</p>
+                        </div>
+                    </div>
+                    <div style="margin-top: 15px; text-align: center;">
+                        <button class="btn" onclick="downloadCard(${card.id})">Download Card</button>
+                        <button class="btn btn-warning" onclick="emailCard(${card.id})">Email Card</button>
+                    </div>
+                `;
+                
+                cardsContainer.appendChild(cardElement);
+            });
+        }
+
+        // Download card (simulation)
+        function downloadCard(cardId) {
+            showAlert('cards', 'Card download started! (This is a simulation)', 'success');
+        }
+
+        // Email card (simulation)
+        function emailCard(cardId) {
+            const cards = JSON.parse(localStorage.getItem('gameChangerCards')) || [];
+            const card = cards.find(c => c.id === cardId);
+            if (card) {
+                sendPlayerCardEmail(card.playerData);
+            }
+        }
+
+        // Send player card email (simulation)
+        function sendPlayerCardEmail(player) {
+            // This is a simulation - in real implementation, you would use EmailJS or similar service
+            console.log(`Sending player card to ${player.email}`);
+            
+            // Simulate email sending delay
+            setTimeout(() => {
+                showAlert('cards', `Player card sent to ${player.email}`, 'success');
+            }, 1000);
+        }
+
+        // Utility function to show alerts
+        function showAlert(containerId, message, type) {
+            const container = document.getElementById(containerId);
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.textContent = message;
+            
+            container.appendChild(alert);
+            
+            // Remove alert after 5 seconds
+            setTimeout(() => {
+                if (alert.parentNode) {
+                    alert.parentNode.removeChild(alert);
+                }
+            }, 5000);
+        }
+
+        // Real-time verification monitoring (simulation)
+        setInterval(() => {
+            // Simulate random verification attempts for demo
+            if (Math.random() < 0.1 && players.length > 0) { // 10% chance every 5 seconds
+                const randomPlayer = players[Math.floor(Math.random() * players.length)];
+                const verificationAlert = document.getElementById('verificationAlerts');
+                
+                if (randomPlayer.status === 'fraud') {
+                    showAlert('verificationAlerts', `🚨 FRAUD ALERT: ${randomPlayer.firstName} ${randomPlayer.lastName} attempted verification!`, 'danger');
+                } else {
+                    showAlert('verificationAlerts', `✅ Verification attempt: ${randomPlayer.firstName} ${randomPlayer.lastName}`, 'success');
+                }
+            }
+        }, 5000);
+    </script>
+</body>
+</html>
